@@ -1,12 +1,8 @@
 package com.soham.lnd.ai.experiments.controller;
 
 import com.soham.lnd.ai.experiments.model.Batter;
-import com.soham.lnd.ai.experiments.model.Student;
 import com.soham.lnd.ai.experiments.service.AiService;
-import org.springframework.http.MediaType;
-import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,5 +27,15 @@ public class ExperimentController {
     @GetMapping(value = "/ask_list")
     public List<Batter> whoAreBestBatsmen() throws IOException {
         return chatService.getBestBatsmen();
+    }
+
+    @GetMapping("/output")
+    public  String experiment_Output(@RequestParam("q") String pText){
+        return chatService.experiment_Output(pText);
+    }
+
+    @GetMapping("/code")
+    public  String experiment_PromptTemplateWithCodingExample(@RequestParam("problem") String probelmText, @RequestParam(value="lang", required = false) String lang){
+        return chatService.experiment_PromptTemplateWithCodingExample(probelmText, lang);
     }
 }

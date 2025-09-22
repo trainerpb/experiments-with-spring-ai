@@ -58,4 +58,36 @@ public class AiService {
 
         return batters;
     }
+
+
+    public String experiment_Output( String prompt) {
+
+        var response = chatClient.prompt(prompt).call().chatResponse();
+        var response2 =chatClient.prompt(prompt).call().chatClientResponse();
+        return null;
+    }
+
+    /**
+     *
+     * @param problem
+     * @param language
+     * @return A code snippet to solve the problem in the specified language
+     *
+     * Observations:
+     *    1. Works and defaults to Python if no language is specified
+     *    2. We need to specify the language in the prompt to get code in that language
+     *
+     */
+
+    public String experiment_PromptTemplateWithCodingExample( String problem,String language) {
+        String prompt = "Write a program to solve this problem: "+problem;
+        var response = chatClient.prompt()
+                .user(prompt)
+//                .system("You are a "+language+" programmer")
+                .system(u-> u.text("You are a {ln} programmer").param("ln",language))
+                .call().chatResponse();
+
+
+        return response.getResult().getOutput().getText();
+    }
 }
